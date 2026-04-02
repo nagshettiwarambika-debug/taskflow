@@ -1,0 +1,210 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(13, 13, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+}
+
+.navbar-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text-primary) !important;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.navbar-logo-icon {
+  font-size: 1rem;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.navbar-link {
+  color: var(--text-secondary) !important;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.navbar-link:hover {
+  color: var(--text-primary) !important;
+  background: var(--bg-elevated);
+}
+
+.navbar-link.active {
+  color: var(--accent) !important;
+  background: var(--accent-dim);
+}
+
+.navbar-right {
+  position: relative;
+  margin-left: auto;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.navbar-user:hover {
+  border-color: var(--border-bright);
+  background: var(--bg-hover);
+}
+
+.navbar-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.navbar-username {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.navbar-chevron {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+}
+
+.navbar-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  min-width: 200px;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.15s ease;
+  z-index: 100;
+}
+
+.navbar-dropdown-email {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.navbar-dropdown-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+
+.navbar-dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-secondary) !important;
+  transition: var(--transition);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+}
+
+.navbar-dropdown-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary) !important;
+}
+
+.navbar-dropdown-item.danger:hover {
+  background: var(--red-dim);
+  color: var(--red) !important;
+}
+
+.navbar-mobile-btn {
+  display: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  padding: 6px;
+  margin-left: auto;
+}
+
+.navbar-mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 8px 24px 16px;
+  border-top: 1px solid var(--border);
+  gap: 2px;
+}
+
+.navbar-mobile-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  color: var(--text-secondary) !important;
+  transition: var(--transition);
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.navbar-mobile-link:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary) !important;
+}
+
+.navbar-mobile-link.danger:hover {
+  color: var(--red) !important;
+}
+
+@media (max-width: 640px) {
+  .navbar-links { display: none; }
+  .navbar-right { display: none; }
+  .navbar-mobile-btn { display: flex; }
+  .navbar-mobile-menu { display: flex; }
+}
