@@ -25,7 +25,7 @@ const Dashboard = () => {
   };
 
   const completionRate = stats?.total
-    ? Math.round((stats.byStatus.done / stats.total) * 100)
+    ? Math.round(((stats?.byStatus?.done ?? 0) / stats.total) * 100)
     : 0;
 
   if (loading) {
@@ -52,9 +52,9 @@ const Dashboard = () => {
       {/* Stats */}
       <div className="stats-grid">
         <StatCard label="Total Tasks" value={stats?.total ?? 0} color="var(--accent)" icon="📋" />
-        <StatCard label="To Do" value={stats?.byStatus.todo ?? 0} color="var(--text-secondary)" icon="○" />
-        <StatCard label="In Progress" value={stats?.byStatus['in-progress'] ?? 0} color="var(--blue)" icon="◑" />
-        <StatCard label="Completed" value={stats?.byStatus.done ?? 0} color="var(--green)" icon="●" />
+        <StatCard label="To Do" value={stats?.byStatus?.todo ?? 0} color="var(--text-secondary)" icon="○" />
+        <StatCard label="In Progress" value={stats?.byStatus?.['in-progress'] ?? 0} color="var(--blue)" icon="◑" />
+        <StatCard label="Completed" value={stats?.byStatus?.done ?? 0} color="var(--green)" icon="●" /> 
       </div>
 
       <div className="dashboard-body">
