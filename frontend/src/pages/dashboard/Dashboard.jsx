@@ -24,9 +24,10 @@ const Dashboard = () => {
     return 'Good evening';
   };
 
-  const completionRate = stats?.total
-    ? Math.round(((stats?.byStatus?.done ?? 0) / stats.total) * 100)
-    : 0;
+  const byStatus = stats?.byStatus ?? { todo: 0, 'in-progress': 0, done: 0 };
+  const byPriority = stats?.byPriority ?? { low: 0, medium: 0, high: 0 };
+  const total = stats?.total ?? 0;
+  const completionRate = total ? Math.round((byStatus.done / total) * 100) : 0;
 
   if (loading) {
     return (
@@ -38,7 +39,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard animate-fade-in">
-      {/* Header */}
       <div className="dashboard-header">
         <div>
           <p className="dashboard-greeting">{greeting()},</p>
@@ -49,16 +49,14 @@ const Dashboard = () => {
         </button>
       </div>
 
-      {/* Stats */}
       <div className="stats-grid">
-        <StatCard label="Total Tasks" value={stats?.total ?? 0} color="var(--accent)" icon="📋" />
-        <StatCard label="To Do" value={stats?.byStatus?.todo ?? 0} color="var(--text-secondary)" icon="○" />
-        <StatCard label="In Progress" value={stats?.byStatus?.['in-progress'] ?? 0} color="var(--blue)" icon="◑" />
-        <StatCard label="Completed" value={stats?.byStatus?.done ?? 0} color="var(--green)" icon="●" /> 
+        <StatCard label="Total Tasks" value={total} color="var(--accent)" icon="📋" />
+        <StatCard label="To Do" value={byStatus.todo} color="var(--text-secondary)" icon="○" />
+        <StatCard label="In Progress" value={byStatus['in-progress']} color="var(--blue)" icon="◑" />
+        <StatCard label="Completed" value={byStatus.done} color="var(--green)" icon="●" />
       </div>
 
       <div className="dashboard-body">
-        {/* Progress */}
         <div className="card progress-card">
           <div className="progress-header">
             <h2>Overall Progress</h2>
@@ -75,8 +73,8 @@ const Dashboard = () => {
                 { key: 'medium', label: 'Medium', color: 'var(--accent)' },
                 { key: 'low', label: 'Low', color: 'var(--green)' },
               ].map(({ key, label, color }) => {
-                const count = stats?.byPriority[key] ?? 0;
-                const pct = stats?.total ? Math.round((count / stats.total) * 100) : 0;
+                const count = byPriority[key] ?? 0;
+                const pct = total ? Math.round((count / total) * 100) : 0;
                 return (
                   <div key={key} className="priority-bar-row">
                     <span className="priority-bar-label">{label}</span>
@@ -91,7 +89,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Recent Tasks */}
         <div className="card recent-card">
           <div className="recent-header">
             <h2>Recent Tasks</h2>
@@ -99,7 +96,6 @@ const Dashboard = () => {
               View all →
             </button>
           </div>
-
           {tasks.length === 0 ? (
             <div className="empty-state" style={{ padding: '32px 0' }}>
               <div className="empty-state-icon">📭</div>
@@ -110,14 +106,10 @@ const Dashboard = () => {
             <ul className="recent-tasks">
               {tasks.slice(0, 5).map((task) => (
                 <li key={task._id} className="recent-task-item" onClick={() => navigate('/tasks')}>
-                  <div
-                    className="recent-task-dot"
-                    style={{
-                      background:
-                        task.status === 'done' ? 'var(--green)' :
-                        task.status === 'in-progress' ? 'var(--blue)' : 'var(--text-muted)',
-                    }}
-                  />
+                  <div className="recent-task-dot" style={{
+                    background: task.status === 'done' ? 'var(--green)' :
+                      task.status === 'in-progress' ? 'var(--blue)' : 'var(--text-muted)',
+                  }} />
                   <div className="recent-task-info">
                     <span className={`recent-task-title ${task.status === 'done' ? 'done' : ''}`}>
                       {task.title}
