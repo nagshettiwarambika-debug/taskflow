@@ -3,7 +3,7 @@ import { tasksAPI } from '../api/tasksAPI';
 
 export const useTasks = (filters = {}) => {
   const [tasks, setTasks] = useState([]);
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState({ total: 0, byStatus: { todo: 0, 'in-progress': 0, done: 0 }, byPriority: { low: 0, medium: 0, high: 0 } });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ export const useTasks = (filters = {}) => {
         tasksAPI.getStats(),
       ]);
       setTasks(tasksRes.data.tasks);
-      setStats(statsRes.data);
+      setStats(statsRes.data.stats ?? statsRes.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load tasks.');
     } finally {
