@@ -21,13 +21,14 @@ export const useTasks = (filters = {}) => {
         tasksAPI.getAll(filters),
         tasksAPI.getStats(),
       ]);
-      setTasks(tasksRes.data.tasks);
-     const raw = statsRes.data;
-setStats({
-  total: raw?.total ?? 0,
-  byStatus: { todo: 0, 'in-progress': 0, done: 0, ...(raw?.byStatus ?? {}) },
-  byPriority: { low: 0, medium: 0, high: 0, ...(raw?.byPriority ?? {}) },
-});
+      const rawTasks = tasksRes.data?.tasks ?? tasksRes.data ?? [];
+      setTasks(Array.isArray(rawTasks) ? rawTasks : []);
+      const raw = statsRes.data;
+      setStats({
+        total: raw?.total ?? 0,
+        byStatus: { todo: 0, 'in-progress': 0, done: 0, ...(raw?.byStatus ?? {}) },
+        byPriority: { low: 0, medium: 0, high: 0, ...(raw?.byPriority ?? {}) },
+      });
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load tasks.');
     } finally {
