@@ -20,19 +20,20 @@ export const AuthProvider = ({ children }) => {
     if (!token) { setLoading(false); return; }
 
     authAPI.getMe()
-  .then(({ data }) => {
-    setUser(data);
-    localStorage.setItem('tf_user', JSON.stringify(data));
-  })
-  .catch((err) => {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('tf_token');
-      localStorage.removeItem('tf_user');
-      setUser(null);
-    }
-    // For network errors (backend sleeping), keep the stored user
-  })
-  .finally(() => setLoading(false));
+      .then(({ data }) => {
+        setUser(data);
+        localStorage.setItem('tf_user', JSON.stringify(data));
+      })
+      .catch((err) => {
+        // Only logout on 401 (invalid token), not on network errors
+        if (err.response?.status === 401) {
+          localStorage.removeItem('tf_token');
+          localStorage.removeItem('tf_user');
+          setUser(null);
+        }
+        // On network error, keep existing stored user
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = useCallback(async (credentials) => {
