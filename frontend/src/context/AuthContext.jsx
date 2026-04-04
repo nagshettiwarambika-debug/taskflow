@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import { authAPI } from '../api/authAPI';
 
 const AuthContext = createContext(null);
@@ -12,26 +12,7 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
   });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem('tf_token');
-    if (!token) { setLoading(false); return; }
-
-    authAPI.getMe()
-      .then(({ data }) => {
-        setUser(data);
-        localStorage.setItem('tf_user', JSON.stringify(data));
-      })
-      .catch((err) => {
-        if (err.response?.status === 401) {
-          localStorage.removeItem('tf_token');
-          localStorage.removeItem('tf_user');
-          setUser(null);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const [loading] = useState(false);
 
   const login = useCallback(async (credentials) => {
     const { data } = await authAPI.login(credentials);
