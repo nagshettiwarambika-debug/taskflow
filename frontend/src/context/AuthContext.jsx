@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Verify token on mount
   useEffect(() => {
     const token = localStorage.getItem('tf_token');
     if (!token) { setLoading(false); return; }
@@ -25,13 +24,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('tf_user', JSON.stringify(data));
       })
       .catch((err) => {
-        // Only logout on 401 (invalid token), not on network errors
         if (err.response?.status === 401) {
           localStorage.removeItem('tf_token');
           localStorage.removeItem('tf_user');
           setUser(null);
         }
-        // On network error, keep existing stored user
       })
       .finally(() => setLoading(false));
   }, []);
